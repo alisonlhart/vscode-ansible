@@ -135,9 +135,9 @@ tasks:
     desc: "Run all tests: \e[22;32munit, ui, e2e, als\e[0m"
     cmds:
       - task: setup
-      # - task: unit
-      # - task: ui
-      # - task: e2e
+      - task: unit
+      - task: ui
+      - task: e2e
       - task: als:test
       # .vsix file is no longer needed for executing tests.
       # This is just for making sure that the package step works w/o issues.
