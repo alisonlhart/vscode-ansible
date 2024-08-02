@@ -956,6 +956,7 @@ describe("doCompletion()", () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
         });
+        console.log("LOGGING AGAIN")
 
         testModuleKindAndDocumentation(context, textDoc);
       });
