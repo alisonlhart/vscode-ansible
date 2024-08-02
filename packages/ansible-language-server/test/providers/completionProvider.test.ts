@@ -907,18 +907,20 @@ describe("doCompletion()", () => {
     });
     describe("Completion for module names (with different trigger scenarios)", () => {
       describe("With EE enabled @ee", () => {
+        console.log("before before");
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
             "/home/runner/.ansible/collections:/usr/share/ansible",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
-
+        console.log("before testModuleNames");
         testModuleNames(context, textDoc);
-
+        console.log("after")
         after(async () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
+          console.log("after after");
         });
       });
 
