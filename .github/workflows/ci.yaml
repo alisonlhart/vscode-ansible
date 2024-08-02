@@ -250,6 +250,11 @@ jobs:
         if: contains(matrix.name, 'test')
         run: task unit ${{ matrix.env.TASKFILE_ARGS }}
 
+      - name: task als
+        # https://github.com/ansible/vscode-ansible/issues/1451
+        if: contains(matrix.name, 'test')
+        run: task als ${{ matrix.env.TASKFILE_ARGS }}
+
       - name: task ui
         # https://github.com/ansible/vscode-ansible/issues/1451
         if: "${{ contains(matrix.name, 'test') && !contains(matrix.name, 'wsl') }}"
@@ -259,11 +264,6 @@ jobs:
         # https://github.com/ansible/vscode-ansible/issues/1451
         if: "${{ contains(matrix.name, 'test') && !contains(matrix.name, 'wsl') }}"
         run: task e2e ${{ matrix.env.TASKFILE_ARGS }}
-
-      - name: task als
-        # https://github.com/ansible/vscode-ansible/issues/1451
-        if: contains(matrix.name, 'test')
-        run: task als ${{ matrix.env.TASKFILE_ARGS }}
 
       - name: Upload vsix artifact
         if: ${{ matrix.name == 'test' }}
