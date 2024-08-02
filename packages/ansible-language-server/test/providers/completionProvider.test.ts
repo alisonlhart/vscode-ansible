@@ -47,6 +47,7 @@ function testPlayKeywords(
     tests.forEach(({ name, position, triggerCharacter, completion }) => {
       it(`should provide completion for ${name}`, async function () {
         const actualCompletion = await doCompletion(textDoc, position, context);
+        debugger;
 
         const filteredCompletion = smartFilter(
           actualCompletion,
