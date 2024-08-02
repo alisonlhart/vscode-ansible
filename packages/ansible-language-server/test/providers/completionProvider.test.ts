@@ -759,6 +759,7 @@ describe("doCompletion()", () => {
       });
       describe("With EE disabled", () => {
         before(async () => {
+        console.log("Is this running???")
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
 
