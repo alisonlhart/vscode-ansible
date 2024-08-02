@@ -745,14 +745,16 @@ describe("doCompletion()", () => {
           setFixtureAnsibleCollectionPathEnv(
             "/home/runner/.ansible/collections:/usr/share/ansible",
           );
+          console.log("Set fixture path env");
           await enableExecutionEnvironmentSettings(docSettings);
         });
-
+        console.log("Test Host values");
         testHostValues(context, textDoc);
 
         after(async () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
+          console.log("set fixure path empty, disable EE settings");
         });
       });
       describe("With EE disabled", () => {
