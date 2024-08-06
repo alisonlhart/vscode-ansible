@@ -13,7 +13,7 @@ import { ExtensionSettings } from "../src/interfaces/extensionSettings";
 
 import Fuse from "fuse.js";
 
-export const FIXTURES_BASE_PATH = path.join("test", "fixtures");
+export const FIXTURES_BASE_PATH = path.join("packages", "ansible-language-server", "test", "fixtures");
 export const ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH = path.resolve(
   FIXTURES_BASE_PATH,
   "common",

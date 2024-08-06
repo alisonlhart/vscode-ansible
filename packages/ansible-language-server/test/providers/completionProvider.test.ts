@@ -255,6 +255,7 @@ function testModuleNames(
         if (!completion) {
           expect(filteredCompletion.length).be.equal(0);
         } else {
+          console.log("filtered completion: ", filteredCompletion[0])
           expect(filteredCompletion[0].label).to.contain(completion);
           expect(filteredCompletion[0].textEdit?.newText).to.contain(
             completion,
@@ -937,9 +938,10 @@ describe("doCompletion()", () => {
 
     describe("Check module kind and documentation of completion item", () => {
       describe("With EE enabled @ee", () => {
+        // debugger;
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible:test/",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
