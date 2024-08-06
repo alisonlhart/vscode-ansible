@@ -66,6 +66,8 @@ tasks:
     cmds:
       # - bash -c 'asdf local nodejs latest:18 latest:$(asdf nodejs resolve lts)'
       - task: .test
+      - echo $ANSIBLE_COLLECTIONS_PATHS
+      - ansible-galaxy collection list
   test-node-lts:
     dir: "{{ .TASKFILE_DIR }}"
     desc: Run all tests using node-lts (future)

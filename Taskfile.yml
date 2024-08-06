@@ -148,7 +148,6 @@ tasks:
     desc: Run e2e tests {{.XVFB}}
     aliases: [e2e]
     cmds:
-      - task: package
       - $VIRTUAL_ENV/bin/python3 --version
       - '{{.XVFB}} bash -c ''source "${VIRTUAL_ENV}/bin/activate" && yarn run _coverage-all'''
     interactive: true

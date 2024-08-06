@@ -750,6 +750,8 @@ describe("Test collection paths and installation", () => {
         expect(process.env.ANSIBLE_COLLECTIONS_PATHS).to.equal("");
         await enableExecutionEnvironmentSettings(docSettings);
       });
+      console.log(process.env.ANSIBLE_COLLECTIONS_PATHS)
+      expect(process.env.ANSIBLE_COLLECTIONS_PATHS).to.equal("");
       console.log("Test Host values");
       testHostValues(context, textDoc);
 
