@@ -747,19 +747,14 @@ describe("Test collection paths and installation", () => {
           "/home/runner/.ansible/collections:/usr/share/ansible",
         );
 
-        console.log("Paths: ",process.env.ANSIBLE_COLLECTIONS_PATHS)
         await enableExecutionEnvironmentSettings(docSettings);
       });
-      setFixtureAnsibleCollectionPathEnv(
-        "/home/runner/.ansible/collections:/usr/share/ansible",
-      );
       console.log("ansible-galaxy command:");
       let ansibleCommand = exec.spawn('ansible-galaxy',  ['collection', 'list']);
       ansibleCommand.stdout.on('data', (data) => {
         console.log(`stdout: ` + data.toString());
       });
       console.log("Paths again: ",process.env.ANSIBLE_COLLECTIONS_PATHS)
-      //expect(process.env.ANSIBLE_COLLECTIONS_PATHS).to.equal("/home/runner/.ansible/collections:/usr/share/ansible:/home/ali/code/vscode-extension/vscode-ansible/packages/ansible-language-server/test/fixtures/common/collections");
       after(async () => {
         setFixtureAnsibleCollectionPathEnv();
         await disableExecutionEnvironmentSettings(docSettings);
@@ -789,7 +784,10 @@ describe("doCompletion()", () => {
           console.log("Set fixture path env");
           await enableExecutionEnvironmentSettings(docSettings);
         });
-        console.log("Test Host values");
+        setFixtureAnsibleCollectionPathEnv(
+            "/home/runner/.ansible/collections:/usr/share/ansible",
+          );
+        expect(process.env.ANSIBLE_COLLECTIONS_PATHS).to.equal("/home/runner/.ansible/collections:/usr/share/ansible:/home/ali/code/vscode-extension/vscode-ansible/packages/ansible-language-server/test/fixtures/common/collections");
         testHostValues(context, textDoc);
 
         after(async () => {
@@ -948,20 +946,16 @@ describe("doCompletion()", () => {
     });
     describe("Completion for module names (with different trigger scenarios)", () => {
       describe("With EE enabled @ee", () => {
-        console.log("before before");
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
             "/home/runner/.ansible/collections:/usr/share/ansible",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
-        console.log("before testModuleNames");
         testModuleNames(context, textDoc);
-        console.log("after")
         after(async () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
-          console.log("after after");
         });
       });
 
@@ -999,7 +993,6 @@ describe("doCompletion()", () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
         });
-        console.log("LOGGING AGAIN")
 
         testModuleKindAndDocumentation(context, textDoc);
       });
