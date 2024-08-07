@@ -749,6 +749,9 @@ describe("Test collection paths and installation", () => {
 
         await enableExecutionEnvironmentSettings(docSettings);
       });
+      setFixtureAnsibleCollectionPathEnv(
+        "/home/runner/.ansible/collections:/usr/share/ansible",
+      );
       console.log("ansible-galaxy command:");
       let ansibleCommand = exec.spawn('ansible-galaxy',  ['collection', 'list']);
       ansibleCommand.stdout.on('data', (data) => {
