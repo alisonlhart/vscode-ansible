@@ -29,7 +29,7 @@ describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
     if (run_lightspeed_tests_only !== "1") {
       testHoverWithoutEE();
       testDiagnosticsAnsibleWithoutEE();
-    //  testDiagnosticsYAMLWithoutEE();
+      testDiagnosticsYAMLWithoutEE();
     }
     //testLightspeed();
   });
