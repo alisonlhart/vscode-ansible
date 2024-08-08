@@ -58,7 +58,11 @@ tasks:
     dir: "{{ .TASKFILE_DIR }}"
     cmds:
       - task: build
-      - bash -c "source {{.VIRTUAL_ENV}}/bin/activate && command -v ansible-lint && npm run test"
+      - command -v ansible-lint
+      - echo ${VIRTUAL_ENV}
+      - export ANSIBLE_COLLECTIONS_PATHS=/home/runner/.ansible/collections:/usr/share/ansible/collections
+      - echo $ANSIBLE_COLLECTIONS_PATHS
+      - yarn run test
     interactive: true
   test:
     desc: Run all tests using node (same version as vscode), will skip @ee tests if both SKIP_PODMAN=1 and SKIP_DOCKER=1.
@@ -66,8 +70,6 @@ tasks:
     cmds:
       # - bash -c 'asdf local nodejs latest:18 latest:$(asdf nodejs resolve lts)'
       - task: .test
-      - echo $ANSIBLE_COLLECTIONS_PATHS
-      - ansible-galaxy collection list
   test-node-lts:
     dir: "{{ .TASKFILE_DIR }}"
     desc: Run all tests using node-lts (future)

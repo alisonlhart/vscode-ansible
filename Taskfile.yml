@@ -149,6 +149,7 @@ tasks:
     aliases: [e2e]
     cmds:
       - $VIRTUAL_ENV/bin/python3 --version
+      - echo ${VIRTUAL_ENV}
       - '{{.XVFB}} bash -c ''source "${VIRTUAL_ENV}/bin/activate" && yarn run _coverage-all'''
     interactive: true
   test-ui:
