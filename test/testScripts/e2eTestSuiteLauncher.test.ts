@@ -34,7 +34,7 @@ describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
     testLightspeed();
   });
 
-//   const skip_ee = process.env.SKIP_PODMAN || process.env.SKIP_DOCKER || "0";
+   const skip_ee = process.env.SKIP_PODMAN || process.env.SKIP_DOCKER || "0";
 //   if (skip_ee !== "1" && run_lightspeed_tests_only !== "1") {
 //     describe("TEST EXTENSION IN EXECUTION ENVIRONMENT", () => {
 //       before(async () => {
