@@ -1,5 +1,6 @@
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { expect } from "chai";
+import exec from "child_process";
 import {
   Position,
   CompletionItemKind,
@@ -254,6 +255,7 @@ function testModuleNames(
         if (!completion) {
           expect(filteredCompletion.length).be.equal(0);
         } else {
+          console.log("filtered completion: ", filteredCompletion[0])
           expect(filteredCompletion[0].label).to.contain(completion);
           expect(filteredCompletion[0].textEdit?.newText).to.contain(
             completion,
@@ -728,6 +730,40 @@ function testModuleKindAndDocumentation(
   });
 }
 
+describe("Test collection paths and installation", () => {
+  const workspaceManager = createTestWorkspaceManager();
+  let fixtureFilePath = "completion/simple_tasks.yml";
+  let fixtureFileUri = resolveDocUri(fixtureFilePath);
+  let context = workspaceManager.getContext(fixtureFileUri);
+
+  let textDoc = getDoc(fixtureFilePath);
+  expect(context).is.not.undefined;
+  if (context) {
+    const docSettings = context.documentSettings.get(textDoc.uri);
+
+    describe("With EE enabled @ee", () => {
+      before(async () => {
+        setFixtureAnsibleCollectionPathEnv(
+          "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+        );
+
+        await enableExecutionEnvironmentSettings(docSettings);
+      });
+      console.log("ansible-galaxy command:");
+      let ansibleCommand = exec.spawn('ansible-galaxy',  ['collection', 'list']);
+      ansibleCommand.stdout.on('data', (data) => {
+        console.log(`stdout: ` + data.toString());
+      });
+      console.log("Paths again: ",process.env.ANSIBLE_COLLECTIONS_PATHS)
+      after(async () => {
+        setFixtureAnsibleCollectionPathEnv();
+        await disableExecutionEnvironmentSettings(docSettings);
+        console.log("set fixure path empty, disable EE settings");
+      });
+    });
+  }
+});
+
 describe("doCompletion()", () => {
   const workspaceManager = createTestWorkspaceManager();
   let fixtureFilePath = "completion/simple_tasks.yml";
@@ -743,8 +779,9 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
+          console.log("Set fixture path env");
           await enableExecutionEnvironmentSettings(docSettings);
         });
 
@@ -753,10 +790,12 @@ describe("doCompletion()", () => {
         after(async () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
+          console.log("set fixure path empty, disable EE settings");
         });
       });
       describe("With EE disabled", () => {
         before(async () => {
+        console.log("Is this running???")
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
 
@@ -775,7 +814,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -811,7 +850,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -845,7 +884,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -880,7 +919,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -906,13 +945,11 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
-
         testModuleNames(context, textDoc);
-
         after(async () => {
           setFixtureAnsibleCollectionPathEnv();
           await disableExecutionEnvironmentSettings(docSettings);
@@ -931,10 +968,12 @@ describe("doCompletion()", () => {
 
     describe("Check module kind and documentation of completion item", () => {
       describe("With EE enabled @ee", () => {
+        // debugger;
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections:test/",
           );
+          console.log("Collections path: ",process.env.ANSIBLE_COLLECTIONS_PATH)
           await enableExecutionEnvironmentSettings(docSettings);
         });
 
@@ -960,7 +999,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -987,7 +1026,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -1022,7 +1061,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -1057,7 +1096,7 @@ describe("doCompletion()", () => {
         describe("With EE enabled @ee", () => {
           before(async () => {
             setFixtureAnsibleCollectionPathEnv(
-              "/home/runner/.ansible/collections:/usr/share/ansible",
+              "/home/runner/.ansible/collections:/usr/share/ansible/collections",
             );
             await enableExecutionEnvironmentSettings(docSettings);
           });
@@ -1093,7 +1132,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
@@ -1129,7 +1168,7 @@ describe("doCompletion()", () => {
       describe("With EE enabled @ee", () => {
         before(async () => {
           setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible",
+            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
         });
