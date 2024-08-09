@@ -31,7 +31,7 @@ describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
       //testDiagnosticsAnsibleWithoutEE();
       //testDiagnosticsYAMLWithoutEE();
     }
-    //testLightspeed();
+    testLightspeed();
   });
 
    const skip_ee = process.env.SKIP_PODMAN || process.env.SKIP_DOCKER || "0";
