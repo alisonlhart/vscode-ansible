@@ -35,26 +35,26 @@ describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
   });
 
    const skip_ee = process.env.SKIP_PODMAN || process.env.SKIP_DOCKER || "0";
-//   if (skip_ee !== "1" && run_lightspeed_tests_only !== "1") {
-//     describe("TEST EXTENSION IN EXECUTION ENVIRONMENT", () => {
-//       before(async () => {
-//         setFixtureAnsibleCollectionPathEnv(
-//           "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-//         );
-//         await enableExecutionEnvironmentSettings();
-//       });
+  if (skip_ee !== "1" && run_lightspeed_tests_only !== "1") {
+    describe("TEST EXTENSION IN EXECUTION ENVIRONMENT", () => {
+      before(async () => {
+        setFixtureAnsibleCollectionPathEnv(
+          "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+        );
+        await enableExecutionEnvironmentSettings();
+      });
 
-//       after(async () => {
-//         await disableExecutionEnvironmentSettings(); // Revert back the default settings
-//       });
+      after(async () => {
+        await disableExecutionEnvironmentSettings(); // Revert back the default settings
+      });
 
-//       testHoverEE();
-//     });
-//   }
+      testHoverEE();
+    });
+  }
 
-//   if (run_lightspeed_tests_only !== "1") {
-//     describe("TEST EXTENSION FOR FILES OUTSIDE WORKSPACE", function () {
-//       testExtensionForFilesOutsideWorkspace();
-//     });
-//   }
+  if (run_lightspeed_tests_only !== "1") {
+    describe("TEST EXTENSION FOR FILES OUTSIDE WORKSPACE", function () {
+      testExtensionForFilesOutsideWorkspace();
+    });
+  }
 });
