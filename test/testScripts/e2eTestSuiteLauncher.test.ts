@@ -57,4 +57,4 @@ describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
 //       testExtensionForFilesOutsideWorkspace();
 //     });
 //   }
-// });
+});
