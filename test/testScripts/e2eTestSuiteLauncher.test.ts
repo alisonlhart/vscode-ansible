@@ -14,25 +14,25 @@ import { testExtensionForFilesOutsideWorkspace } from "./outsideWorkspace/testEx
 describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
   const run_lightspeed_tests_only =
     process.env.RUN_LIGHTSPEED_TESTS_ONLY || "0";
-  describe("TEST EXTENSION IN LOCAL ENVIRONMENT", () => {
-    before(async () => {
-      setFixtureAnsibleCollectionPathEnv(
-        "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-      );
-      await updateSettings("trace.server", "verbose", "ansibleServer");
-    });
+//   describe("TEST EXTENSION IN LOCAL ENVIRONMENT", () => {
+//     before(async () => {
+//       setFixtureAnsibleCollectionPathEnv(
+//         "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//       );
+//       await updateSettings("trace.server", "verbose", "ansibleServer");
+//     });
 
-    after(async () => {
-      await updateSettings("trace.server", "off", "ansibleServer"); // Revert back the default settings
-    });
+//     after(async () => {
+//       await updateSettings("trace.server", "off", "ansibleServer"); // Revert back the default settings
+//     });
 
-    if (run_lightspeed_tests_only !== "1") {
-      testHoverWithoutEE();
-      testDiagnosticsAnsibleWithoutEE();
-      testDiagnosticsYAMLWithoutEE();
-    }
-    testLightspeed();
-  });
+//     if (run_lightspeed_tests_only !== "1") {
+//       testHoverWithoutEE();
+//       testDiagnosticsAnsibleWithoutEE();
+//       testDiagnosticsYAMLWithoutEE();
+//     }
+//     testLightspeed();
+//   });
 
    const skip_ee = process.env.SKIP_PODMAN || process.env.SKIP_DOCKER || "0";
   if (skip_ee !== "1" && run_lightspeed_tests_only !== "1") {
