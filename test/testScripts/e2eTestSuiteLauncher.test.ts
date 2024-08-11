@@ -26,12 +26,12 @@ describe("END-TO-END TEST SUITE FOR REDHAT.ANSIBLE EXTENSION", () => {
       await updateSettings("trace.server", "off", "ansibleServer"); // Revert back the default settings
     });
 
-    // if (run_lightspeed_tests_only !== "1") {
-    //   testHoverWithoutEE();
+    if (run_lightspeed_tests_only !== "1") {
+       testHoverWithoutEE();
     //   testDiagnosticsAnsibleWithoutEE();
     //   testDiagnosticsYAMLWithoutEE();
-    // }
-    testLightspeed();
+    }
+    //testLightspeed();
   });
 
    const skip_ee = process.env.SKIP_PODMAN || process.env.SKIP_DOCKER || "0";
