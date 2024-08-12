@@ -12,6 +12,8 @@ import { ValidationManager } from "../src/services/validationManager";
 import { ExtensionSettings } from "../src/interfaces/extensionSettings";
 
 import Fuse from "fuse.js";
+import { WorkspaceFolderContext } from "../src/services/workspaceManager";
+
 
 export const FIXTURES_BASE_PATH = path.join("test", "fixtures");
 export const ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH = path.resolve(
@@ -29,17 +31,32 @@ export const ANSIBLE_CONFIG_FILE = path.resolve(
   "ansible.cfg",
 );
 
-export function setFixtureAnsibleCollectionPathEnv(prePendPath?: string): void {
+export async function setFixtureAnsibleCollectionPathEnv(context: WorkspaceFolderContext, prePendPathOne?: string, prePendPathTwo?: string): Promise<void> {
+    const ansibleConfig = await context.ansibleConfig;
+    if (prePendPathOne && prePendPathTwo) {
+      process.env.ANSIBLE_COLLECTIONS_PATHS = `${prePendPathOne}:${prePendPathTwo}:${ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH}`;
+
+      ansibleConfig.collections_paths.push(prePendPathOne);
+      ansibleConfig.collections_paths.push(prePendPathTwo);
+      ansibleConfig.collections_paths.push(ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH);
+    } else {
+      process.env.ANSIBLE_COLLECTIONS_PATHS =
+        ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH;
+      ansibleConfig.collections_paths.push(ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH);
+    }
+  }
+
+export function unSetFixtureAnsibleCollectionPathEnv(): void {
+    process.env.ANSIBLE_COLLECTIONS_PATHS = undefined;
+}
+
+export function old_setFixtureAnsibleCollectionPathEnv(prePendPath?: string): void {
   if (prePendPath) {
     process.env.ANSIBLE_COLLECTIONS_PATHS = `${prePendPath}:${ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH}`;
   } else {
     process.env.ANSIBLE_COLLECTIONS_PATHS =
       ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH;
   }
-}
-
-export function unSetFixtureAnsibleCollectionPathEnv(): void {
-  process.env.ANSIBLE_COLLECTIONS_PATHS = undefined;
 }
 
 export function setAnsibleConfigEnv(): void {

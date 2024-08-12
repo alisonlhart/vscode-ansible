@@ -90,11 +90,13 @@ describe("getDefinition()", function () {
   const textDoc = getDoc(fixtureFilePath);
   const docSettings = context?.documentSettings.get(textDoc.uri);
 
+  if (context) {
+
   describe("Module name definitions", function () {
     describe("With EE enabled @ee", function () {
       before(async function () {
         setFixtureAnsibleCollectionPathEnv(
-          "/home/runner/.ansible/collections:/usr/share/ansible",
+          context, "/home/runner/.ansible/collections", "/usr/share/ansible",
         );
         if (docSettings) {
           await enableExecutionEnvironmentSettings(docSettings);
@@ -106,7 +108,7 @@ describe("getDefinition()", function () {
       }
 
       after(async function () {
-        setFixtureAnsibleCollectionPathEnv();
+        setFixtureAnsibleCollectionPathEnv(context);
         if (docSettings) {
           await disableExecutionEnvironmentSettings(docSettings);
         }
@@ -115,7 +117,7 @@ describe("getDefinition()", function () {
 
     describe("With EE disabled", function () {
       before(async function () {
-        setFixtureAnsibleCollectionPathEnv();
+        setFixtureAnsibleCollectionPathEnv(context);
         if (docSettings) {
           await disableExecutionEnvironmentSettings(docSettings);
         }
@@ -125,4 +127,5 @@ describe("getDefinition()", function () {
       }
     });
   });
+}
 });
