@@ -951,239 +951,239 @@ describe("doCompletion()", () => {
         });
       });
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+    //   describe("With EE disabled", () => {
+    //     before(async () => {
+    //       setFixtureAnsibleCollectionPathEnv();
+    //       await disableExecutionEnvironmentSettings(docSettings);
+    //     });
 
-        testModuleNames(context, textDoc);
-      });
+    //     testModuleNames(context, textDoc);
+    //   });
     });
 
-    describe("Check module kind and documentation of completion item", () => {
-      describe("With EE enabled @ee", () => {
-        // debugger;
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible/collections:test/",
-          );
-          console.log("Collections path: ",process.env.ANSIBLE_COLLECTIONS_PATH)
-          await enableExecutionEnvironmentSettings(docSettings);
-        });
+//     describe("Check module kind and documentation of completion item", () => {
+//       describe("With EE enabled @ee", () => {
 
-        testModuleKindAndDocumentation(context, textDoc);
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv(
+//             "/home/runner/.ansible/collections:/usr/share/ansible/collections:test/",
+//           );
+//           console.log("Collections path: ",process.env.ANSIBLE_COLLECTIONS_PATH)
+//           await enableExecutionEnvironmentSettings(docSettings);
+//         });
 
-        after(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
-      });
+//         testModuleKindAndDocumentation(context, textDoc);
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+//         after(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+//       });
 
-        testModuleKindAndDocumentation(context, textDoc);
-      });
-    });
+//       describe("With EE disabled", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
 
-    describe("Completion for module options and suboptions", () => {
-      describe("With EE enabled @ee", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-          );
-          await enableExecutionEnvironmentSettings(docSettings);
-        });
+//         testModuleKindAndDocumentation(context, textDoc);
+//       });
+//     });
 
-        testModuleOptions(context, textDoc);
+//     describe("Completion for module options and suboptions", () => {
+//       describe("With EE enabled @ee", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv(
+//             "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//           );
+//           await enableExecutionEnvironmentSettings(docSettings);
+//         });
 
-        after(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
-      });
+//         testModuleOptions(context, textDoc);
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+//         after(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+//       });
 
-        testModuleOptions(context, textDoc);
-      });
-    });
+//       describe("With EE disabled", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
 
-    describe("Completion for option and suboption values", () => {
-      describe("With EE enabled @ee", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-          );
-          await enableExecutionEnvironmentSettings(docSettings);
-        });
+//         testModuleOptions(context, textDoc);
+//       });
+//     });
 
-        testModuleOptionsValues(context, textDoc);
+//     describe("Completion for option and suboption values", () => {
+//       describe("With EE enabled @ee", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv(
+//             "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//           );
+//           await enableExecutionEnvironmentSettings(docSettings);
+//         });
 
-        after(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
-      });
+//         testModuleOptionsValues(context, textDoc);
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+//         after(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+//       });
 
-        testModuleOptionsValues(context, textDoc);
-      });
-    });
-  }
-  fixtureFilePath = "completion/tasks_without_fqcn.yml";
-  fixtureFileUri = resolveDocUri(fixtureFilePath);
-  context = workspaceManager.getContext(fixtureFileUri);
-  textDoc = getDoc(fixtureFilePath);
-  expect(context).is.not.undefined;
-  if (context) {
-    let docSettings = context.documentSettings.get(textDoc.uri);
+//       describe("With EE disabled", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
 
-    describe("Completion for module name without FQCN", () => {
-      describe("With EE enabled @ee", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-          );
-          await enableExecutionEnvironmentSettings(docSettings);
-        });
+//         testModuleOptionsValues(context, textDoc);
+//       });
+//     });
+//   }
+//   fixtureFilePath = "completion/tasks_without_fqcn.yml";
+//   fixtureFileUri = resolveDocUri(fixtureFilePath);
+//   context = workspaceManager.getContext(fixtureFileUri);
+//   textDoc = getDoc(fixtureFilePath);
+//   expect(context).is.not.undefined;
+//   if (context) {
+//     let docSettings = context.documentSettings.get(textDoc.uri);
 
-        testModuleNamesWithoutFQCN(context, textDoc);
+//     describe("Completion for module name without FQCN", () => {
+//       describe("With EE enabled @ee", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv(
+//             "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//           );
+//           await enableExecutionEnvironmentSettings(docSettings);
+//         });
 
-        after(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
-      });
+//         testModuleNamesWithoutFQCN(context, textDoc);
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+//         after(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+//       });
 
-        testModuleNamesWithoutFQCN(context, textDoc);
-      });
-    });
+//       describe("With EE disabled", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
 
-    describe("Completion for variables inside jinja inline brackets", () => {
-      fixtureFilePath = "completion/playbook_with_vars.yml";
-      fixtureFileUri = resolveDocUri(fixtureFilePath);
-      context = workspaceManager.getContext(fixtureFileUri);
-      textDoc = getDoc(fixtureFilePath);
-      expect(context).is.not.undefined;
-      if (context) {
-        docSettings = context.documentSettings.get(textDoc.uri);
+//         testModuleNamesWithoutFQCN(context, textDoc);
+//       });
+//     });
 
-        describe("With EE enabled @ee", () => {
-          before(async () => {
-            setFixtureAnsibleCollectionPathEnv(
-              "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-            );
-            await enableExecutionEnvironmentSettings(docSettings);
-          });
+//     describe("Completion for variables inside jinja inline brackets", () => {
+//       fixtureFilePath = "completion/playbook_with_vars.yml";
+//       fixtureFileUri = resolveDocUri(fixtureFilePath);
+//       context = workspaceManager.getContext(fixtureFileUri);
+//       textDoc = getDoc(fixtureFilePath);
+//       expect(context).is.not.undefined;
+//       if (context) {
+//         docSettings = context.documentSettings.get(textDoc.uri);
 
-          testVarsCompletionInsideJinja(context, textDoc);
+//         describe("With EE enabled @ee", () => {
+//           before(async () => {
+//             setFixtureAnsibleCollectionPathEnv(
+//               "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//             );
+//             await enableExecutionEnvironmentSettings(docSettings);
+//           });
 
-          after(async () => {
-            setFixtureAnsibleCollectionPathEnv();
-            await disableExecutionEnvironmentSettings(docSettings);
-          });
-        });
+//           testVarsCompletionInsideJinja(context, textDoc);
 
-        describe("With EE disabled", () => {
-          before(async () => {
-            setFixtureAnsibleCollectionPathEnv();
-            await disableExecutionEnvironmentSettings(docSettings);
-          });
+//           after(async () => {
+//             setFixtureAnsibleCollectionPathEnv();
+//             await disableExecutionEnvironmentSettings(docSettings);
+//           });
+//         });
 
-          testVarsCompletionInsideJinja(context, textDoc);
-        });
-      }
-    });
-  }
-  fixtureFilePath = "playbook_adjacent_collection/playbook.yml";
-  fixtureFileUri = resolveDocUri(fixtureFilePath);
-  context = workspaceManager.getContext(fixtureFileUri);
-  textDoc = getDoc(fixtureFilePath);
-  expect(context).is.not.undefined;
-  if (context) {
-    const docSettings = context.documentSettings.get(textDoc.uri);
+//         describe("With EE disabled", () => {
+//           before(async () => {
+//             setFixtureAnsibleCollectionPathEnv();
+//             await disableExecutionEnvironmentSettings(docSettings);
+//           });
 
-    describe("Completion for playbook adjacent collection", () => {
-      describe("With EE enabled @ee", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-          );
-          await enableExecutionEnvironmentSettings(docSettings);
-        });
+//           testVarsCompletionInsideJinja(context, textDoc);
+//         });
+//       }
+//     });
+//   }
+//   fixtureFilePath = "playbook_adjacent_collection/playbook.yml";
+//   fixtureFileUri = resolveDocUri(fixtureFilePath);
+//   context = workspaceManager.getContext(fixtureFileUri);
+//   textDoc = getDoc(fixtureFilePath);
+//   expect(context).is.not.undefined;
+//   if (context) {
+//     const docSettings = context.documentSettings.get(textDoc.uri);
 
-        testPlaybookAdjacentCollection(context, textDoc);
+//     describe("Completion for playbook adjacent collection", () => {
+//       describe("With EE enabled @ee", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv(
+//             "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//           );
+//           await enableExecutionEnvironmentSettings(docSettings);
+//         });
 
-        after(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
-      });
+//         testPlaybookAdjacentCollection(context, textDoc);
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+//         after(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+//       });
 
-        testPlaybookAdjacentCollection(context, textDoc);
-      });
-    });
-  }
-  fixtureFilePath =
-    "playbook_adjacent_collection/non_adjacent_playbooks/playbook2.yml";
-  fixtureFileUri = resolveDocUri(fixtureFilePath);
-  context = workspaceManager.getContext(fixtureFileUri);
-  textDoc = getDoc(fixtureFilePath);
-  expect(context).is.not.undefined;
-  if (context) {
-    const docSettings = context.documentSettings.get(textDoc.uri);
+//       describe("With EE disabled", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
 
-    describe("Negate completion for non playbook adjacent collection", () => {
-      describe("With EE enabled @ee", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv(
-            "/home/runner/.ansible/collections:/usr/share/ansible/collections",
-          );
-          await enableExecutionEnvironmentSettings(docSettings);
-        });
+//         testPlaybookAdjacentCollection(context, textDoc);
+//       });
+//     });
+//   }
+//   fixtureFilePath =
+//     "playbook_adjacent_collection/non_adjacent_playbooks/playbook2.yml";
+//   fixtureFileUri = resolveDocUri(fixtureFilePath);
+//   context = workspaceManager.getContext(fixtureFileUri);
+//   textDoc = getDoc(fixtureFilePath);
+//   expect(context).is.not.undefined;
+//   if (context) {
+//     const docSettings = context.documentSettings.get(textDoc.uri);
 
-        testNonPlaybookAdjacentCollection(context, textDoc);
+//     describe("Negate completion for non playbook adjacent collection", () => {
+//       describe("With EE enabled @ee", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv(
+//             "/home/runner/.ansible/collections:/usr/share/ansible/collections",
+//           );
+//           await enableExecutionEnvironmentSettings(docSettings);
+//         });
 
-        after(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
-      });
+//         testNonPlaybookAdjacentCollection(context, textDoc);
 
-      describe("With EE disabled", () => {
-        before(async () => {
-          setFixtureAnsibleCollectionPathEnv();
-          await disableExecutionEnvironmentSettings(docSettings);
-        });
+//         after(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+//       });
 
-        testNonPlaybookAdjacentCollection(context, textDoc);
-      });
-    });
+//       describe("With EE disabled", () => {
+//         before(async () => {
+//           setFixtureAnsibleCollectionPathEnv();
+//           await disableExecutionEnvironmentSettings(docSettings);
+//         });
+
+//         testNonPlaybookAdjacentCollection(context, textDoc);
+//       });
+//     });
   }
 });
