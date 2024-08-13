@@ -59,8 +59,6 @@ tasks:
     cmds:
       - task: build
       - command -v ansible-lint
-      - echo ${VIRTUAL_ENV}
-      - export ANSIBLE_COLLECTIONS_PATHS=/home/runner/.ansible/collections:/usr/share/ansible/collections
       - echo $ANSIBLE_COLLECTIONS_PATHS
       - yarn run test
     interactive: true

@@ -918,13 +918,17 @@ describe("doCompletion()", () => {
           );
           await enableExecutionEnvironmentSettings(docSettings);
 
-          let ansibleCommand = exec.spawn('tree',  ['~/.cache/ansible-language-server']);
-          ansibleCommand.stdout.on('data', (data) => {
-            console.log(`stdout: ` + data.toString());
-          });
   
         });
+        let ansibleCommandOne = exec.spawn('ansible-galaxy',  ['collection', 'list']);
+        ansibleCommandOne.stdout.on('data', (data) => {
+          console.log(`stdout: ` + data.toString());
+        });
 
+        let ansibleCommandTwo = exec.spawn('ansible-galaxy',  ['--version']);
+        ansibleCommandTwo.stdout.on('data', (data) => {
+          console.log(`stdout: ` + data.toString());
+        });
         testTaskKeywords(context, textDoc);
 
         after(async () => {
