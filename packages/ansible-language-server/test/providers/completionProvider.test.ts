@@ -917,6 +917,12 @@ describe("doCompletion()", () => {
             context, "/home/runner/.ansible/collections","/usr/share/ansible/collections",
           );
           await enableExecutionEnvironmentSettings(docSettings);
+
+          let ansibleCommand = exec.spawn('tree',  ['~/.cache/ansible-language-server']);
+          ansibleCommand.stdout.on('data', (data) => {
+            console.log(`stdout: ` + data.toString());
+          });
+  
         });
 
         testTaskKeywords(context, textDoc);
