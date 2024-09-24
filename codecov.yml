@@ -1,6 +1,13 @@
 codecov:
   require_ci_to_pass: true
+  notify:
+    after_n_builds: 3 # effectively number of uploads: linux, macos, wsl
+    wait_for_ci: true
 comment: false
 coverage:
   status:
     patch: true # we want github annotations
+    project:
+      default:
+        # avoid noise from rounding errors, often caused by code reformatting
+        threshold: "0.05"

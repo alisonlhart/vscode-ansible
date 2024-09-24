@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import * as path from "path";
 import { readFileSync } from "fs";
@@ -9,6 +10,7 @@ import {
 } from "vscode-languageserver/node";
 import { ValidationManager } from "../src/services/validationManager";
 import { ExtensionSettings } from "../src/interfaces/extensionSettings";
+import { rmSync } from "fs";
 
 import Fuse from "fuse.js";
 
@@ -27,6 +29,13 @@ export const ANSIBLE_CONFIG_FILE = path.resolve(
   "completion",
   "ansible.cfg",
 );
+
+export function deleteAlsCache(): void {
+  const hostCacheBasePath = path.resolve(
+    `${process.env.HOME}/.cache/ansible-language-server/`,
+  );
+  rmSync(hostCacheBasePath, { recursive: true, force: true });
+}
 
 export function setFixtureAnsibleCollectionPathEnv(prePendPath?: string): void {
   if (prePendPath) {
@@ -57,12 +66,12 @@ export async function enableExecutionEnvironmentSettings(
     {
       src: ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH,
       dest: ANSIBLE_COLLECTIONS_FIXTURES_BASE_PATH,
-      options: undefined,
+      options: "ro", // read-only option for volume mounts
     },
     {
       src: ANSIBLE_ADJACENT_COLLECTIONS__PATH,
       dest: ANSIBLE_ADJACENT_COLLECTIONS__PATH,
-      options: undefined,
+      options: "ro", // read-only option for volume mounts
     },
   ];
 }
@@ -71,6 +80,7 @@ export async function disableExecutionEnvironmentSettings(
   docSettings: Thenable<ExtensionSettings>,
 ): Promise<void> {
   (await docSettings).executionEnvironment.enabled = false;
+  (await docSettings).executionEnvironment.volumeMounts = [];
 }
 
 export function resolveDocUri(filename: string): string {
@@ -90,6 +100,11 @@ export function isWindows(): boolean {
   return process.platform === "win32";
 }
 
+export function skipEE(): boolean {
+  const SKIP_PODMAN = (process.env.SKIP_PODMAN || "0") === "1";
+  const SKIP_DOCKER = (process.env.SKIP_DOCKER || "0") === "1";
+  return SKIP_PODMAN && SKIP_DOCKER;
+}
 /**
  * A function that tries to imitate the filtering of the completion items done in the respective client extension
  * when the user starts typing against the provided auto-completions
@@ -176,3 +191,27 @@ export function createTestValidationManager(): ValidationManager {
   connection.listen();
   return validationManager;
 }
+
+type LogFunction = (...args: unknown[]) => void;
+
+function logWrapper(
+  originalLog: (...args: unknown[]) => void,
+  wrapper: chalk.ChalkFunction,
+): (...args: unknown[]) => void {
+  return function (...args: unknown[]): void {
+    wrapper(originalLog(...args));
+  };
+}
+
+interface CustomConsole extends Console {}
+const customConsole: CustomConsole = Object.create(console);
+
+customConsole.info = logWrapper(console.info as LogFunction, chalk.blue);
+customConsole.error = logWrapper(console.error as LogFunction, chalk.red);
+customConsole.warn = logWrapper(
+  console.warn as LogFunction,
+  chalk.yellowBright,
+);
+customConsole.log = logWrapper(console.log as LogFunction, chalk.gray);
+
+export { customConsole as console };
