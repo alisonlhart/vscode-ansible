@@ -189,8 +189,10 @@ function openExplorer(event: any) {
         if (selectedUri) {
           if (source === "folder-explorer") {
             initPathUrlInputField.value = selectedUri;
+            initPathUrlTextField.value = selectedUri;
           } else {
             logFilePathInputField.value = selectedUri;
+            logFilePath.value = selectedUri;
           }
         }
       }
@@ -243,9 +245,13 @@ function toggleEditableModeInstallCheckBox() {
 function handleInitClearClick() {
   namespaceInputField.value = "";
   collectionInputField.value = "";
-
   initPathUrlInputField.value = "";
   logFilePathInputField.value = "";
+
+  initNamespaceNameTextField.value = "";
+  initCollectionNameTextField.value = "";
+  logFilePath.value = "";
+  initPathUrlTextField.value = "";
 
   initCollectionNameElement.innerHTML = "namespace.collection";
 
